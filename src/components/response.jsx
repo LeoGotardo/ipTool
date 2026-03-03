@@ -35,11 +35,25 @@ const css = `
   .green{width:5px;height:5px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.6)}
 `;
 
-export function Response(ipData) {
+export function Response() {
   const [visible, setVisible] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setVisible(true), 60); return () => clearTimeout(t); }, []);
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 60);
+    return () => clearTimeout(t);
+  }, []);
 
-  const d = ipData;
+  const [d, setD] = useState(null);
+
+  useEffect(() => {
+    const handler = () => setD(window.ipData);
+    window.addEventListener("ipDataReady", handler);
+    return () => window.removeEventListener("ipDataReady", handler);
+  }, []);
+
+  if (d == null) {
+    return <div className="wrap"></div>;
+  }
+
   const cells = [
     { label: "Country", value: d.country_name },
     { label: "Capital", value: d.location.capital },
@@ -55,12 +69,20 @@ export function Response(ipData) {
     <>
       <style>{css}</style>
       <div className="wrap">
-        <div className="card" style={{ opacity: visible ? 1 : 0, transition: "opacity .4s" }}>
+        <div
+          className="card"
+          style={{ opacity: visible ? 1 : 0, transition: "opacity .4s" }}
+        >
           <div className="hdr">
             <div className="flag">{d.location.country_flag_emoji}</div>
             <div className="htxt">
-              <h1>{d.city}, {d.region_code}</h1>
-              <p>{d.continent_name} · {d.country_name} · +{d.location.calling_code}</p>
+              <h1>
+                {d.city}, {d.region_code}
+              </h1>
+              <p>
+                {d.continent_name} · {d.country_name} · +
+                {d.location.calling_code}
+              </p>
             </div>
             <div className="badge">
               <span className="ip">{d.ip}</span>
@@ -69,19 +91,36 @@ export function Response(ipData) {
           </div>
 
           <div className="coords">
-            <div className="ci"><span className="lbl">Latitude</span><span className="val mono">{d.latitude.toFixed(6)}</span></div>
+            <div className="ci">
+              <span className="lbl">Latitude</span>
+              <span className="val mono">{d.latitude.toFixed(6)}</span>
+            </div>
             <div className="sep" />
-            <div className="ci"><span className="lbl">Longitude</span><span className="val mono">{d.longitude.toFixed(6)}</span></div>
+            <div className="ci">
+              <span className="lbl">Longitude</span>
+              <span className="val mono">{d.longitude.toFixed(6)}</span>
+            </div>
             <div className="sep" />
-            <div className="ci"><span className="lbl">Radius</span><span className="val mono">{parseFloat(d.radius).toFixed(1)} km</span></div>
+            <div className="ci">
+              <span className="lbl">Radius</span>
+              <span className="val mono">
+                {parseFloat(d.radius).toFixed(1)} km
+              </span>
+            </div>
             <div className="dot" />
           </div>
 
-          <div className="Map"><GeoMap lat={d.latitude} lon={d.longitude} /> </div>
+          <div className="Map">
+            <GeoMap lat={d.latitude} lon={d.longitude} />{" "}
+          </div>
 
           <div className="grid">
             {cells.map(({ label, value, mono }, i) => (
-              <div key={label} className="cell" style={{ animationDelay: `${.05*i+.2}s` }}>
+              <div
+                key={label}
+                className="cell"
+                style={{ animationDelay: `${0.05 * i + 0.2}s` }}
+              >
                 <div className="lbl">{label}</div>
                 <div className={mono ? "val mono" : "val"}>{value}</div>
               </div>
@@ -89,19 +128,27 @@ export function Response(ipData) {
           </div>
 
           <div className="langs">
-            <span className="lbl" style={{ marginBottom: 0 }}>Languages</span>
-            {d.location.languages.map(lang => (
+            <span className="lbl" style={{ marginBottom: 0 }}>
+              Languages
+            </span>
+            {d.location.languages.map((lang) => (
               <span key={lang.code} className="chip">
-                <span className="lc">{lang.code.toUpperCase()}</span>{lang.native}
+                <span className="lc">{lang.code.toUpperCase()}</span>
+                {lang.native}
               </span>
             ))}
           </div>
 
           <div className="foot">
-            <span className="fpill"><span className="green" />Active</span>
+            <span className="fpill">
+              <span className="green" />
+              Active
+            </span>
             <span className="fpill">EU: {d.location.is_eu ? "Yes" : "No"}</span>
             <span className="fpill">Geoname #{d.location.geoname_id}</span>
-            <span className="fpill">{d.location.country_flag_emoji_unicode}</span>
+            <span className="fpill">
+              {d.location.country_flag_emoji_unicode}
+            </span>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
-export function Input(type, placeholder, id) {
+export function Input(props) {
   return (
     <div className="input">
-      <input type={type} placeholder={placeholder} id={id} />
+      <input type={props.type} placeholder={props.placeholder} id={props.id} />
     </div>
   )
 }
