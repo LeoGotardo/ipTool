@@ -6,7 +6,7 @@ export function loockup(){
         return
     }
 
-    let ipData = fetch(`https://api.ipapi.com/api/${ip}?access_key=e0b1e9c1c2d3e4f5`)
+    window.global.ipData = fetch(`https://api.ipapi.com/api/${ip}?access_key=e0b1e9c1c2d3e4f5`)
         .then(response => response.json()).catch(error => console.log(error))
 
     

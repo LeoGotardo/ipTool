@@ -5,7 +5,7 @@ import { Button } from './button.jsx'
 import { Input } from './input.jsx'
 import { loockup } from '../utils/loockup.js'
 
-let ipData = {}
+window.global.ipData = {}
 
 export function Page() {
   return (
@@ -13,7 +13,7 @@ export function Page() {
       <h1>IPTool Loockup</h1>
         <div className="input-container"><Input tyle={"text"} placeholder={"IP"} id={"ip"} /></div>
         <div className="button-container"><Button callback={loockup} label={"Lookup"} /></div>
-        <div className="response-container"><Response ipData={ipData}/></div>
+        <div className="response-container"><Response ipData={window.global.ipData} /></div>
     </div>
   )
 }
