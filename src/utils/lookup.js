@@ -1,5 +1,6 @@
 export async function lookup() {
   const ip = document.getElementById('ip').value;
+  const key = import.meta.env.VITE_IPAPI_KEY;
 
   if (!isValidIp(ip)) {
     alert('Invalid IP');
@@ -7,7 +8,7 @@ export async function lookup() {
   }
 
   try {
-    const response = await fetch(`https://api.ipapi.com/api/${ip}?access_key=890e1219628ae153bb16464ce62a8ecf`);
+    const response = await fetch(`https://api.ipapi.com/api/${ip}?access_key=${key}`);
     const data = await response.json();
     console.log(data);
     window.ipData = data;
