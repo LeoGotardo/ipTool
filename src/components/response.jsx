@@ -298,70 +298,71 @@ export function Response() {
     <>
       <style>{css}</style>
       <div className="wrap">
-        <div className="card" style={{ opacity: visible ? 1 : 0, transition: "opacity .4s" }}>
-
-          {/* Header */}
-          <div className="hdr">
-            <div className="flag">{d.location.country_flag_emoji}</div>
-            <div className="htxt">
-              <h1>{d.city}, {d.region_code}</h1>
-              <p>{d.continent_name} · {d.country_name} · +{d.location.calling_code}</p>
-            </div>
-            <div className="badge">
-              <span className="ip">{d.ip}</span>
-              <span className="iptyp">{d.type}</span>
-            </div>
-          </div>
-
-          {/* Coordinates bar */}
-          <div className="statbar">
-            {[
-              { label: "LATITUDE",  value: d.latitude.toFixed(6),             mono: true },
-              { label: "LONGITUDE", value: d.longitude.toFixed(6),            mono: true },
-              { label: "RADIUS",    value: `${parseFloat(d.radius).toFixed(1)} km`, mono: true },
-            ].map(({ label, value, mono }) => (
-              <div key={label} className="stat">
-                <span className="lbl">{label}</span>
-                <span className={`val${mono ? " mono" : ""}`}>{value}</span>
-              </div>
-            ))}
-            <div className="dot" style={{ margin: "auto 1.25rem auto 0" }} />
-          </div>
+        <div className="card result-wrapper" style={{ opacity: visible ? 1 : 0, transition: "opacity .4s" }}>
 
           {/* Map */}
           <div className="mapWrap">
             <GeoMap lat={d.latitude} lng={d.longitude} height="260px" />
           </div>
 
-          {/* Grid */}
-          <div className="grid">
-            {cells.map(({ label, value, mono }, i) => (
-              <div key={label} className="cell" style={{ animationDelay: `${.05 * i + .2}s` }}>
-                <div className="lbl">{label}</div>
-                <div className={mono ? "val mono" : "val"}>{value}</div>
+          <div className="info-wrapper">
+            {/* Header */}
+            <div className="hdr">
+              <div className="flag">{d.location.country_flag_emoji}</div>
+              <div className="htxt">
+                <h1>{d.city}, {d.region_code}</h1>
+                <p>{d.continent_name} · {d.country_name} · +{d.location.calling_code}</p>
               </div>
-            ))}
-          </div>
+              <div className="badge">
+                <span className="ip">{d.ip}</span>
+                <span className="iptyp">{d.type}</span>
+              </div>
+            </div>
 
-          {/* Languages */}
-          <div className="langs">
-            <span className="lbl" style={{ marginBottom: 0 }}>LANGUAGES</span>
-            {d.location.languages.map((lang) => (
-              <span key={lang.code} className="chip">
-                <span className="lc">{lang.code.toUpperCase()}</span>
-                {lang.native}
-              </span>
-            ))}
-          </div>
+            {/* Coordinates bar */}
+            <div className="statbar">
+              {[
+                { label: "LATITUDE",  value: d.latitude.toFixed(6),             mono: true },
+                { label: "LONGITUDE", value: d.longitude.toFixed(6),            mono: true },
+                { label: "RADIUS",    value: `${parseFloat(d.radius).toFixed(1)} km`, mono: true },
+              ].map(({ label, value, mono }) => (
+                <div key={label} className="stat">
+                  <span className="lbl">{label}</span>
+                  <span className={`val${mono ? " mono" : ""}`}>{value}</span>
+                </div>
+              ))}
+              <div className="dot" style={{ margin: "auto 1.25rem auto 0" }} />
+            </div>
 
-          {/* Footer */}
-          <div className="foot">
-            <span className="fpill"><span className="green" /> ACTIVE</span>
-            <span className="fpill">EU: {d.location.is_eu ? "YES" : "NO"}</span>
-            <span className="fpill">GEONAME #{d.location.geoname_id}</span>
-            <span className="fpill">{d.location.country_flag_emoji_unicode}</span>
-          </div>
+            {/* Grid */}
+            <div className="grid">
+              {cells.map(({ label, value, mono }, i) => (
+                <div key={label} className="cell" style={{ animationDelay: `${.05 * i + .2}s` }}>
+                  <div className="lbl">{label}</div>
+                  <div className={mono ? "val mono" : "val"}>{value}</div>
+                </div>
+              ))}
+            </div>
 
+            {/* Languages */}
+            <div className="langs">
+              <span className="lbl" style={{ marginBottom: 0 }}>LANGUAGES</span>
+              {d.location.languages.map((lang) => (
+                <span key={lang.code} className="chip">
+                  <span className="lc">{lang.code.toUpperCase()}</span>
+                  {lang.native}
+                </span>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="foot">
+              <span className="fpill"><span className="green" /> ACTIVE</span>
+              <span className="fpill">EU: {d.location.is_eu ? "YES" : "NO"}</span>
+              <span className="fpill">GEONAME #{d.location.geoname_id}</span>
+              <span className="fpill">{d.location.country_flag_emoji_unicode}</span>
+            </div>
+          </div>
         </div>
       </div>
     </>

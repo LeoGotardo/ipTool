@@ -41,7 +41,7 @@ export function GeoMap({ lat = -15.78, lng = -47.93, zoom = 13, width = "100%", 
       L.marker([lat, lng], {
         icon: L.divIcon({
           className: "",
-          html: `<div style="width:14px;height:14px;background:#4fffb0;border-radius:50%;border:2px solid #fff;box-shadow:0 0 12px #4fffb0;"></div>`,
+          html: `<div style="width:100%;height:100%;background:#4fffb0;border-radius:50%;border:2px solid #fff;box-shadow:0 0 12px #4fffb0;"></div>`,
           iconSize: [14, 14],
           iconAnchor: [7, 7],
         }),
